@@ -1,0 +1,54 @@
+#!/usr/bin/env php
+<?php
+if (PHP_SAPI != 'cli') { exit; }
+ini_set('memory_limit', '-1');
+error_reporting(E_ALL & ~E_NOTICE);
+date_default_timezone_set('Asia/Kolkata');
+require __DIR__ . "/../vendor/autoload.php";
+
+$collab_project = 'yoursports-stream';
+$pivotal_project = '1112124';
+
+$pivotalTracker =  new \PivotalTrackerV5\Client("07ddd75bdeb81354a51b10fa2148cd10",$pivotal_project);
+
+
+$pivotal_stories = $pivotalTracker->getStories(array( 'filter' => "-state:accepted",'limit' => 200, 'offset' => 0));
+$collab_client = new Redmine\Client('http://collab.izap.in', '5cda5ded1450c706772ca77bdd7b274b60361bdc');
+
+
+foreach($pivotal_stories as $story)
+{
+
+
+  $issues = $collab_client->api('issue')->all(array(
+    'project_id'     => $collab_project,
+    'cf_3' => $story['id']
+  ));
+
+  if($issues['total_count'] >= 1)
+  {
+    $issue_id = $issues['issues'][0]['id'];
+
+    $comments = $pivotalTracker->getComments($story['id']);
+
+    foreach($comments as $comment)
+    {
+      $name = $pivotalTracker->getMembers($comment['person_id'])['name'];
+      if(!$name)
+      {
+        $name = 'Non iZAP';
+      }
+      $issue_array = array(
+        'project_id' => $collab_project,
+        'notes' => 'From: '.$name."\n--------------\n\n".$comment['text']
+      );
+      if($collab_client->api('issue')->update($issue_id ,$issue_array))
+      {
+        echo ".";
+      }else{
+        echo " F ";
+      }
+
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+    "name": "izap/pivotal_remine_integration",
+    "description": "This application allow to sync content from pivotal tracker to redmine. this is based on activities api.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tarun Jangra",
+            "email": "tarun@izap.in"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0",
+        "kbsali/redmine-api":"1.5.2",
+        "slim/slim": "2.5.0",
+        "izap/pivotal-tracker-api": "dev-master"
+    },
+    "autoload": {
+      "psr-0": {
+        "PRI": "src/",
+        "PRI\\Tests" : "tests/"
+      }
+    }
+}
