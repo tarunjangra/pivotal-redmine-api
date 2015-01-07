@@ -9,6 +9,18 @@
 namespace PRI\Pivotal\Api;
 
 
-class Project extends Base  {
+class Project extends Base
+{
+  public function __construct(&$client, $project) {
+    $this->client = $client;
+    $this->project = $project;
+  }
 
+  public function listing($options) {
+    return $this->process($this->client->get(
+        '/projects',
+        $options ? (array)$options : null
+      )
+    );
+  }
 } 

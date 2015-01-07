@@ -11,7 +11,6 @@ namespace PRI\Pivotal\Api;
 
 class Story extends Base
 {
-
   public function __construct(&$client, $project) {
     $this->client = $client;
     $this->project = $project;
