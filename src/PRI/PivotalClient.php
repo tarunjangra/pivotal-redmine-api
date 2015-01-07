@@ -60,13 +60,12 @@ class PivotalClient
    * Usage: apikeyOrUsername can be auth key or username.
    * Password needs to be set if username is given.
    *
-   * @param string $url
-   * @param string $apikeyOrUsername
-   * @param string $pass (string or null)
+   * @param string $api_key
+   * @param string $project id
    */
   public function __construct($api_key, $project) {
 
-    $this->client = new PRI\Rest\Client(self::API_URL);
+    $this->client = new Rest\Client(self::API_URL);
     $this->client->addHeader('Content-type', 'application/json');
     $this->client->addHeader('X-TrackerToken', $api_key);
     $this->project = $project;
@@ -74,25 +73,12 @@ class PivotalClient
 
   public function api($name) {
     $classes = array(
-      'attachment'          => 'Attachment',
-      'group'               => 'Group',
-      'custom_fields'       => 'CustomField',
-      'issue'               => 'Issue',
-      'issue_category'      => 'IssueCategory',
-      'issue_priority'      => 'IssuePriority',
-      'issue_relation'      => 'IssueRelation',
-      'issue_status'        => 'IssueStatus',
-      'membership'          => 'Membership',
-      'news'                => 'News',
-      'project'             => 'Project',
-      'query'               => 'Query',
-      'role'                => 'Role',
-      'time_entry'          => 'TimeEntry',
-      'time_entry_activity' => 'TimeEntryActivity',
-      'tracker'             => 'Tracker',
-      'user'                => 'User',
-      'version'             => 'Version',
-      'wiki'                => 'Wiki',
+      'story' => 'Story',
+      'project' => 'Project',
+      'comment' => 'Comment',
+      'member' => 'Member',
+      'label' => 'Label',
+      'task' => 'Task'
     );
     if (!isset($classes[$name])) {
       throw new \InvalidArgumentException();
@@ -100,8 +86,8 @@ class PivotalClient
     if (isset($this->apis[$name])) {
       return $this->apis[$name];
     }
-    $c = 'Redmine\Api\\'.$classes[$name];
-    $this->apis[$name] = new $c($this);
+    $c = '\PRI\Pivotal\Api\\' . $classes[$name];
+    $this->apis[$name] = new $c($this->client,$this->project);
 
     return $this->apis[$name];
   }
@@ -109,85 +95,11 @@ class PivotalClient
 
 
   /**
-   * Adds a new story to PivotalTracker and returns the newly created story
-   * object.
-   *
-   * @param array $story
-   * @param string $name
-   * @param string $description
-   * @return object
-   */
-  public function addStory( array $story  )
-  {
-
-    return $this->processResponse(
-      $this->client->post(
-        "/projects/{$this->project}/stories",
-        json_encode( $story )
-      )
-    );
-  }
-
-  /**
-   * Adds a new task with <b>$description</b> to the story identified by the
-   * given <b>$storyId</b>.
-   *
-   * @param integer $storyId
-   * @param string $description
-   * @return \SimpleXMLElement
-   */
-  public function addTask( $storyId, $description )
-  {
-    return simplexml_load_string(
-      $this->client->post(
-        "/projects/{$this->project}/stories/$storyId/tasks",
-        json_encode( array( 'description' => $description ) )
-
-      )
-    );
-  }
-
-  /**
-   * Adds the given <b>$labels</b> to the story identified by <b>$story</b>
-   * and returns the updated story instance.
-   *
-   * @param integer $storyId
-   * @param array $labels
-   * @return object
-   */
-  public function addLabels( $storyId, array $labels )
-  {
-    return $this->processResponse(
-      $this->client->put(
-        "/projects/{$this->project}/stories/$storyId",
-        json_encode(  $labels )
-      )
-    );
-  }
-
-  /**
-   * Returns all stories for the context project.
-   *
-   * @param array $filter
-   * @return object
-   */
-  public function getStories( $options = null )
-  {
-    return $this->processResponse(
-      $this->client->get(
-        "/projects/{$this->project}/stories",
-        $options ? (array) $options : null
-      )
-    );
-  }
-
-  /**
    * Returns a list of projects for the currently authenticated user.
    *
    * @return object
    */
-  public function getProjects()
-  {
+  public function getProjects() {
     return $this->processResponse(
       $this->client->get(
         "/projects"
@@ -203,8 +115,7 @@ class PivotalClient
    *
    */
 
-  public function getComments($story_id)
-  {
+  public function getComments($story_id) {
     return $this->processResponse(
       $this->client->get(
         "/projects/{$this->project}/stories/{$story_id}/comments"
@@ -213,19 +124,17 @@ class PivotalClient
   }
 
 
-  public function getMembers($member_id = null)
-  {
+  public function getMembers($member_id = null) {
 
     $memberships = $this->processResponse($this->client->get(
       "/projects/{$this->project}/memberships"
     ));
 
-    foreach($memberships as $person_object )
-    {
+    foreach ($memberships as $person_object) {
       $p_array[$person_object['person']['id']] = $person_object['person'];
     }
 
-    return ($member_id)?$p_array[$member_id]:$p_array;
+    return ($member_id) ? $p_array[$member_id] : $p_array;
   }
 
 
@@ -237,7 +146,7 @@ class PivotalClient
    *
    */
 
-  protected function processResponse($response){
-    return json_decode($response,true);
+  protected function processResponse($response) {
+    return json_decode($response, true);
   }
 } 

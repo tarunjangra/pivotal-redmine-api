@@ -11,7 +11,7 @@ $pivotal_project = '1112124';
 
 $hours_map = array('1' => '2', '2' => '4', '3' => '5','5' => '8', '8' => '16', '13' => '24', '21' => '30');
 
-$pivotalTracker =  new \PivotalTrackerV5\Client("07ddd75bdeb81354a51b10fa2148cd10",$pivotal_project);
+$pivotalTracker =  new \PRI\Client("07ddd75bdeb81354a51b10fa2148cd10",$pivotal_project);
 
 
 $pivotal_stories = $pivotalTracker->getStories(array( 'filter' => "-state:accepted",'limit' => 200, 'offset' => 0));

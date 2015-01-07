@@ -9,7 +9,7 @@ require __DIR__ . "/../vendor/autoload.php";
 $collab_project = 'yoursports-stream';
 $pivotal_project = '1112124';
 
-$pivotalTracker =  new \PivotalTrackerV5\Client("07ddd75bdeb81354a51b10fa2148cd10",$pivotal_project);
+$pivotalTracker =  new \PRI\Client("07ddd75bdeb81354a51b10fa2148cd10",$pivotal_project);
 
 
 $pivotal_stories = $pivotalTracker->getStories(array( 'filter' => "-state:accepted",'limit' => 200, 'offset' => 0));
