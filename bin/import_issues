@@ -5,18 +5,13 @@ ini_set('memory_limit', '-1');
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 date_default_timezone_set('Asia/Kolkata');
 require __DIR__ . "/../vendor/autoload.php";
+$config = new \PRI\Config();
 
-$collab_project = 'yoursports-stream';
-//$pivotal_project = '1112124'; // data imports
-$pivotal_project = '250855'; // core
-
-$hours_map = array('1' => '2', '2' => '4', '3' => '5','5' => '8', '8' => '16', '13' => '24', '21' => '30');
-
-$pivotalTracker =  new \PRI\PivotalClient("07ddd75bdeb81354a51b10fa2148cd10",$pivotal_project);
+$pivotalTracker =  new \PRI\PivotalClient($config);
 $pivotal_stories = $pivotalTracker->api('story')->listing(array( 'filter' => "-state:accepted",'limit' => 200, 'offset' => 0));
 
 
-$collab_client = new Redmine\Client('http://collab.izap.in', '5cda5ded1450c706772ca77bdd7b274b60361bdc');
+$collab_client = new Redmine\Client($config->redmine_url, $config->redmine_api);
 
 if(file_exists('pivotal_comments.txt')){
   unlink('pivotal_comments.txt');
@@ -26,7 +21,7 @@ foreach($pivotal_stories as $story)
 {
 
   $issues = $collab_client->api('issue')->all(array(
-    'project_id'     => $collab_project,
+    'project_id'     => $config->redmine_project,
     'cf_3' => $story['id']
   ));
   if($issues['total_count'] >= 1)
@@ -48,7 +43,7 @@ foreach($pivotal_stories as $story)
   }
 
   $issue_array = array(
-    'project_id' => $collab_project,
+    'project_id' => $config->redmine_project,
     'tracker' => ucfirst($story['story_type']),
     'status' => ucfirst($story['current_state']),
     'subject' => substr(htmlentities($story['name'],ENT_QUOTES,'UTF-8'),0,254),
@@ -58,7 +53,7 @@ foreach($pivotal_stories as $story)
       array('id' => 1,'name' => 'Stage', 'value' => ucfirst($current_state)),
       array('id' => 3,'name' => 'Pivotal Story Id', 'value' => $story['id'])
     ),
-    'estimated_hours' => $hours_map[$story['estimate']],
+    'estimated_hours' => $config->hours_map[$story['estimate']],
     'created_on' => $story['created_at']
   );
   try {

@@ -63,12 +63,11 @@ class PivotalClient
    * @param string $api_key
    * @param string $project id
    */
-  public function __construct($api_key, $project) {
-
+  public function __construct(&$config) {
+    $this->config = $config;
     $this->client = new Rest\Client(self::API_URL);
     $this->client->addHeader('Content-type', 'application/json');
-    $this->client->addHeader('X-TrackerToken', $api_key);
-    $this->project = $project;
+    $this->client->addHeader('X-TrackerToken', $this->config->pivotal_api);
   }
 
   public function api($name) {
@@ -87,8 +86,21 @@ class PivotalClient
       return $this->apis[$name];
     }
     $c = '\PRI\Pivotal\Api\\' . $classes[$name];
-    $this->apis[$name] = new $c($this->client,$this->project);
+    $this->apis[$name] = new $c($this->client,$this->config->pivotal_project);
 
     return $this->apis[$name];
+  }
+
+  public function activity($raw_data) {
+
+    $data = json_decode($raw_data,true);
+    $activity = explode("_",$data['kind']);
+
+    if (isset($this->apis[$data['kind']])) {
+      return $this->apis[$data['kind']];
+    }
+    $c = '\PRI\Pivotal\Activity\\' . ucfirst($activity[0]);
+    $this->apis[$data['kind']] = new $c($raw_data,$this->config);
+    return $this->apis[$data['kind']]->{'action'.ucfirst($activity[1])}($this);
   }
 } 

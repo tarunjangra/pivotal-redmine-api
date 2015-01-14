@@ -6,11 +6,220 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 date_default_timezone_set('Asia/Kolkata');
 require __DIR__ . "/../vendor/autoload.php";
 
-$collab_project = 'yoursports-stream';
-$pivotal_project = '250855';
 
-$hours_map = array('1' => '2', '2' => '4', '3' => '5','5' => '8', '8' => '16', '13' => '24', '21' => '30');
+$comment_data = '{
+  "kind": "comment_create_activity",
+  "guid": "250855_96218",
+  "project_version": 96218,
+  "message": "Tarun Jangra added comment: \"Commit by carl-izap\nhttps://github.com/YourSports/core-app/commit/ed2d539d686f206953e294eec8b31c7830d64358\n\nRemoved all the debug [#85577434]\"",
+  "highlight": "added comment:",
+  "changes": [
+    {
+      "kind": "comment",
+      "change_type": "create",
+      "id": 88832400,
+      "new_values": {
+        "id": 88832400,
+        "story_id": 85577434,
+        "text": "Commit by carl-izap\nhttps://github.com/YourSports/core-app/commit/ed2d539d686f206953e294eec8b31c7830d64358\n\nRemoved all the debug [#85577434]",
+        "person_id": 257155,
+        "created_at": 1420630276000,
+        "updated_at": 1420630276000,
+        "file_attachment_ids": [
 
-$pivotalTracker =  new \PRI\PivotalClient("07ddd75bdeb81354a51b10fa2148cd10",$pivotal_project);
+        ],
+        "google_attachment_ids": [
 
-print_r($pivotalTracker->api('story')->listing(array("filter" => 'state:rejected', 'limit' => 10, 'offset' => 0)));
+        ],
+        "commit_identifier": "ed2d539d686f206953e294eec8b31c7830d64358",
+        "commit_type": "github",
+        "file_attachments": [
+
+        ],
+        "google_attachments": [
+
+        ]
+      }
+    },
+    {
+      "kind": "story",
+      "change_type": "update",
+      "id": 85577434,
+      "original_values": {
+        "updated_at": 1420626740000
+      },
+      "new_values": {
+        "updated_at": 1420630276000
+      },
+      "name": "As YourSports, I send a \"First Fan\" email to a user who receives their first Fan on the system from another user and not from the YourSports network. ",
+      "story_type": "feature"
+    }
+  ],
+  "primary_resources": [
+    {
+      "kind": "story",
+      "id": 85577434,
+      "name": "As YourSports, I send a \"First Fan\" email to a user who receives their first Fan on the system from another user and not from the YourSports network. ",
+      "story_type": "feature",
+      "url": "https://beta.pivotaltracker.com/story/show/85577434"
+    }
+  ],
+  "project": {
+    "kind": "project",
+    "id": 250855,
+    "name": "Core"
+  },
+  "performed_by": {
+    "kind": "person",
+    "id": 257155,
+    "name": "Tarun Jangra",
+    "initials": "TJ"
+  },
+  "occurred_at": 1420630276000
+}';
+
+$comment_data = '{
+  "kind": "story_create_activity",
+  "guid": "1112124_22773",
+  "project_version": 22773,
+  "message": "Marcus Akerland added this feature",
+  "highlight": "added",
+  "changes": [
+
+    {
+      "kind": "story",
+      "change_type": "create",
+      "id": 855904348,
+      "new_values": {
+        "id": 855904438,
+        "project_id": 1112124,
+        "name": "As a Data Engineer, I have imported New Associations",
+        "description": "###Acceptance Criteria\n -",
+        "story_type": "feature",
+        "current_state": "planned",
+        "estimate": 21,
+        "requested_by_id": 979515,
+        "owned_by_id": 1318654,
+        "owner_ids": [
+          1318654
+        ],
+        "label_ids": [
+          9088446
+        ],
+        "follower_ids": [
+          979515
+        ],
+        "created_at": 1420624510000,
+        "updated_at": 1420624510000,
+        "before_id": 85409964,
+        "after_id": 85301174,
+        "labels": [
+          "associations"
+        ]
+      },
+      "name": "As a Data Engineer, I have imported New Associations",
+      "story_type": "feature"
+    }
+  ],
+  "primary_resources": [
+    {
+      "kind": "story",
+      "id": 85590438,
+      "name": "As a Data Engineer, I have imported New Associations",
+      "story_type": "feature",
+      "url": "https://www.pivotaltracker.com/story/show/85590438"
+    }
+  ],
+  "project": {
+  "kind": "project",
+    "id": 1112124,
+    "name": "Data Imports"
+  },
+  "performed_by": {
+  "kind": "person",
+    "id": 979515,
+    "name": "Marcus Akerland",
+    "initials": "MA"
+  },
+  "occurred_at": 1420624510000
+}';
+
+$comment_data = '{
+  "kind": "comment_create_activity",
+  "guid": "250855_96160",
+  "project_version": 96160,
+  "message": "Narinder Kaur added comment: \"Commit by Narinder Kaur\nhttps://github.com/YourSports/core-app/commit/6c97a289c7f79da0e7ee1f980c8e8c166a533787\n\nadded api [#84422892]\"",
+  "highlight": "added comment:",
+  "changes": [
+    {
+      "kind": "comment",
+      "change_type": "create",
+      "id": 88818924,
+      "new_values": {
+        "id": 88818924,
+        "story_id": 84422892,
+        "text": "Commit by Narinder Kaur\nhttps://github.com/YourSports/core-app/commit/6c97a289c7f79da0e7ee1f980c8e8c166a533787\n\nadded api [#84422892]",
+        "person_id": 478703,
+        "created_at": 1420616670000,
+        "updated_at": 1420616670000,
+        "file_attachment_ids": [
+
+        ],
+        "google_attachment_ids": [
+
+        ],
+        "commit_identifier": "6c97a289c7f79da0e7ee1f980c8e8c166a533787",
+        "commit_type": "github",
+        "file_attachments": [
+
+        ],
+        "google_attachments": [
+
+        ]
+      }
+    },
+    {
+      "kind": "story",
+      "change_type": "update",
+      "id": 84422892,
+      "original_values": {
+        "updated_at": 1420615209000
+      },
+      "new_values": {
+        "updated_at": 1420616670000
+      },
+      "name": "As Moments OS, I have a new experience and UX. The moment has a GUID, it has Conversations (reactions, replies, comments), it can be shared into Facebook and Twitter when a user becomes a Fan/Foe of it, the user\'s relationship with the entity is harvesteâ€¦",
+      "story_type": "feature"
+    }
+  ],
+  "primary_resources": [
+    {
+      "kind": "story",
+      "id": 84422892,
+      "name": "As Moments OS, I have a new experience and UX. The moment has a GUID, it has Conversations (reactions, replies, comments), it can be shared into Facebook and Twitter when a user becomes a Fan/Foe of it, the user\'s relationship with the entity is harvesteâ€¦",
+      "story_type": "feature",
+      "url": "https://www.pivotaltracker.com/story/show/84422892"
+    }
+  ],
+  "project": {
+    "kind": "project",
+    "id": 250855,
+    "name": "Core"
+  },
+  "performed_by": {
+    "kind": "person",
+    "id": 478703,
+    "name": "Narinder Kaur",
+    "initials": "NK"
+  },
+  "occurred_at": 1420616670000
+}';
+
+$config = new \PRI\Config();
+try {
+  $pivotalTracker = new \PRI\PivotalClient($config);
+  $pivotalTracker->activity($comment_data);
+}
+catch(Exception $e){
+  echo $e->getMessage();
+}

@@ -6,20 +6,17 @@ error_reporting(E_ALL & ~E_NOTICE);
 date_default_timezone_set('Asia/Kolkata');
 require __DIR__ . "/../vendor/autoload.php";
 
-$collab_project = 'yoursports-stream';
-//$pivotal_project = '1112124'; // data imports
-$pivotal_project = '250855'; // core
+$config = new \PRI\Config();
 
-$pivotalTracker =  new \PRI\PivotalClient("07ddd75bdeb81354a51b10fa2148cd10",$pivotal_project);
+$pivotalTracker =  new \PRI\PivotalClient($config);
+
+$collab_client = new Redmine\Client($config->redmine_url, $config->redmine_api);
 
 if(file_exists('pivotal_comments.txt')){
   $pivotal_stories = $pivotalTracker->api('story')->listing(array('filter' => 'id:'.implode(",",file('pivotal_comments.txt'))));
 }else{
   $pivotal_stories = $pivotalTracker->api('story')->listing(array( 'filter' => "-state:accepted",'limit' => 200, 'offset' => 0));
 }
-
-
-$collab_client = new Redmine\Client('http://collab.izap.in', '5cda5ded1450c706772ca77bdd7b274b60361bdc');
 
 
 foreach($pivotal_stories as $story)
