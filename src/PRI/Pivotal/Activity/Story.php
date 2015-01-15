@@ -50,7 +50,7 @@ class Story extends Base
     $issue_array['author_id']=$pivotalTracker->api('member')->listing(array('member_id' => $this->requestedById()))['username'];
 
 
-    if($this->ownerIds()) {
+    if($this->ownerId()) {
       $issue_array['assigned_to'] = $pivotalTracker->api('member')->listing(array('member_id' => $this->ownerId()))['username'];
     }
 
