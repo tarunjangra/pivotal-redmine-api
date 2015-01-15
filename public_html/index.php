@@ -19,8 +19,7 @@ $app->post('/:token', function ($token) use ($config) {
         $pivotalTracker->activity($post_json);
       }
       catch(Exception $e){
-        file_put_contents(__DIR__.'/../output.txt', '('.date('d-M-Y H:i:s').'): '.$e->getMessage()."\n",FILE_APPEND);
-        file_put_contents(__DIR__.'/../output.txt',$post_json."\n".FILE_APPEND);
+        file_put_contents(__DIR__.'/../output.txt', '('.date('d-M-Y H:i:s').'): '.$e->getMessage()."\n".$post_json."\n",FILE_APPEND);
       }
     }
   }
