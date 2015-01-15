@@ -18,13 +18,7 @@ class Story extends Base
 
   public function actionCreate(&$pivotalTracker) {
     $collab_client = new \Redmine\Client($this->config->redmine_url, $this->config->redmine_api);
-    $is_available = $collab_client->api('issue')->all(array(
-      'project_id' => $this->config->redmine_project,
-      'cf_3' => $this->id()
-    ))['total_count'];
-    if ($is_available >= 1) {
-      throw new \Exception(sprintf("Story %d has already available in Redmine.", $this->id()));
-    }
+  
     if ($this->currentState() == 'unscheduled') {
       $current_state = 'icebox';
     } elseif (preg_match('/started|finished|rejected|delivered/', $this->currentState())) {

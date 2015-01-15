@@ -15,7 +15,6 @@ $app->post('/:token', function ($token) use ($config) {
     $post_json = file_get_contents('php://input');
     if(!empty($post_json)){
       try {
-        $config = new \PRI\Config();
         $pivotalTracker = new \PRI\PivotalClient($config);
         $pivotalTracker->activity($post_json);
       }
