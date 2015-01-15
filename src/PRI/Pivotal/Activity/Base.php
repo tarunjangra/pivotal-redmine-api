@@ -43,4 +43,8 @@ class Base
     return $this->changes[0]['original_values'];
   }
 
+  public function actionDelete(){
+    return false;
+  }
+
 } 
