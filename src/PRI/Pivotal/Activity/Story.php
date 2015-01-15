@@ -51,7 +51,12 @@ class Story extends Base
 
 
     if($this->ownerIds()) {
-      $issue_array['assigned_to'] = $pivotalTracker->api('member')->listing(array('member_id' => $this->ownerIds()[0]))['username'];
+      $issue_array['assigned_to'] = $pivotalTracker->api('member')->listing(array('member_id' => $this->ownerId()))['username'];
+    }
+
+    if($this->labels()){
+      $issue_array['tag_list']=$this->labels();
+
     }
 
     $issue_array['custom_fields']=array(
@@ -64,6 +69,9 @@ class Story extends Base
     }
 
     $issue_array['created_on']=$this->createdAt();
+
+    file_put_contents('output.txt',print_r($issue_array,true), FILE_APPEND);
+    file_put_contents('output.txt',print_r($this, true),FILE_APPEND);
 
     $collab_client = new \Redmine\Client($this->config->redmine_url, $this->config->redmine_api);
     $collab_client->api('issue')->create($issue_array);
@@ -94,28 +102,12 @@ class Story extends Base
     return isset($this->newValues()['current_state'])?$this->newValues()['current_state']:false;
   }
 
-  public function labelIds() {
-    return isset($this->newValues()['label_ids'])?$this->newValues()['label_ids']:false;
-  }
-
-  public function ownerIds() {
-    return isset($this->newValues()['owner_ids'])?$this->newValues()['owner_ids']:false;
-  }
-
-  public function projectId() {
-    return isset($this->newValues()['project_id'])?$this->newValues()['project_id']:false;
+  public function ownerId() {
+    return isset($this->newValues()['owner_ids'][0])?$this->newValues()['owner_ids'][0]:false;
   }
 
   public function requestedById() {
     return isset($this->newValues()['requested_by_id'])?$this->newValues()['requested_by_id']:false;
-  }
-
-  public function createdAt() {
-    return isset($this->newValues()['created_at'])?$this->newValues()['created_at']:false;
-  }
-
-  public function updatedAt() {
-    return isset($this->newValues()['updated_at'])?$this->newValues()['updated_at']:false;
   }
 
   public function url() {
@@ -124,6 +116,10 @@ class Story extends Base
 
   public function estimate() {
     return isset($this->newValues()['estimate'])?$this->newValues()['estimate']:false;
+  }
+
+  public function labels(){
+    return count($this->newValues()['labels'])?implode(",",$this->newValues()['labels']):false;
   }
 
 }

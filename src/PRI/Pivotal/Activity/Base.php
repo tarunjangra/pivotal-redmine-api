@@ -47,4 +47,20 @@ class Base
     return false;
   }
 
+  protected function createdAt(){
+    return $this->occurred_at;
+  }
+
+  protected function updatedAt(){
+    return $this->occurred_at;
+  }
+
+  protected function performedBy(){
+    return $this->performed_by['id'];
+  }
+
+  protected function projectId(){
+    return $this->project['id'];
+  }
+
 } 
