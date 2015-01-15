@@ -17,7 +17,6 @@ class Story extends Base
   }
 
   public function actionCreate(&$pivotalTracker) {
-    $collab_client = new \Redmine\Client($this->config->redmine_url, $this->config->redmine_api);
 
     if ($this->currentState() == 'unscheduled') {
       $current_state = 'icebox';
@@ -48,7 +47,12 @@ class Story extends Base
       $issue_array['description'] = htmlentities($this->description(), ENT_QUOTES, 'UTF-8') . "\n\nPivotal Story URL: " . $this->url();
     }
 
-    $issue_array['assigned_to']=$pivotalTracker->api('member')->listing(array('member_id' => $this->requestedById()))['username'];
+    $issue_array['author_id']=$pivotalTracker->api('member')->listing(array('member_id' => $this->requestedById()))['username'];
+
+
+    if($this->ownerIds()) {
+      $issue_array['assigned_to'] = $pivotalTracker->api('member')->listing(array('member_id' => $this->ownerIds()[0]))['username'];
+    }
 
     $issue_array['custom_fields']=array(
       array('id' => 1, 'name' => 'Stage', 'value' => ucfirst($stage)),
@@ -61,6 +65,7 @@ class Story extends Base
 
     $issue_array['created_on']=$this->createdAt();
 
+    $collab_client = new \Redmine\Client($this->config->redmine_url, $this->config->redmine_api);
     $collab_client->api('issue')->create($issue_array);
     return $this;
   }
