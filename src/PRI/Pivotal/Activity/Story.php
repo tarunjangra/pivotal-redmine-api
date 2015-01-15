@@ -68,8 +68,6 @@ class Story extends Base
       $issue_array['estimated_hours'] = $this->config->hours_map[$this->estimate()];
     }
 
-    $issue_array['created_on']=$this->createdAt();
-
     file_put_contents('output.txt',print_r($issue_array,true), FILE_APPEND);
     file_put_contents('output.txt',print_r($this, true),FILE_APPEND);
 
