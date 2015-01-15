@@ -18,7 +18,7 @@ class Story extends Base
 
   public function actionCreate(&$pivotalTracker) {
     $collab_client = new \Redmine\Client($this->config->redmine_url, $this->config->redmine_api);
-  
+
     if ($this->currentState() == 'unscheduled') {
       $current_state = 'icebox';
     } elseif (preg_match('/started|finished|rejected|delivered/', $this->currentState())) {
