@@ -41,7 +41,7 @@ class Story extends Base
       'status' => ucfirst($current_state),
       'subject' => substr(htmlentities($this->name(), ENT_QUOTES, 'UTF-8'), 0, 254),
       'description' => htmlentities($this->description(), ENT_QUOTES, 'UTF-8') . "\n\nPivotal Story URL: " . $this->url(),
-      'assigned_to' => $pivotalTracker->api('member')->listing(array('member_id' => $this->ownedById()))['username'],
+      'assigned_to' => $pivotalTracker->api('member')->listing(array('member_id' => $this->requestedById()))['username'],
       'custom_fields' => array(
         array('id' => 1, 'name' => 'Stage', 'value' => ucfirst($stage)),
         array('id' => 3, 'name' => 'Pivotal Story Id', 'value' => $this->id())
@@ -89,8 +89,8 @@ class Story extends Base
     return $this->newValues()['project_id'];
   }
 
-  public function ownedById() {
-    return $this->newValues()['owned_by_id'];
+  public function requestedById() {
+    return $this->newValues()['requested_by_id'];
   }
 
   public function createdAt() {
