@@ -20,6 +20,7 @@ $app->post('/:token', function ($token) use ($config) {
       }
       catch(Exception $e){
         file_put_contents(__DIR__.'/../output.txt', '('.date('d-M-Y H:i:s').'): '.$e->getMessage()."\n",FILE_APPEND);
+        file_put_contents(__DIR__.'/../output.txt',$post_json."\n".FILE_APPEND);
       }
     }
   }
