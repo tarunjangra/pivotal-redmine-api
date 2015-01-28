@@ -18,7 +18,6 @@ if(file_exists('pivotal_comments.txt')){
   $pivotal_stories = $pivotalTracker->api('story')->listing(array( 'filter' => "-state:accepted",'limit' => 200, 'offset' => 0));
 }
 
-
 foreach($pivotal_stories as $story)
 {
   $issues = $collab_client->api('issue')->all(array(

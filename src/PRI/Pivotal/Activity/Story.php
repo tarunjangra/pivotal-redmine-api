@@ -53,7 +53,7 @@ class Story extends Base
     if($this->ownerId()) {
       $issue_array['assigned_to'] = $pivotalTracker->api('member')->listing(array('member_id' => $this->ownerId()))['username'];
     }
-    
+
 
     $issue_array['custom_fields']=array(
       array('id' => 1, 'name' => 'Stage', 'value' => ucfirst($stage)),

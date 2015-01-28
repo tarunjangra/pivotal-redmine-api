@@ -8,7 +8,7 @@ require __DIR__ . "/../vendor/autoload.php";
 $config = new \PRI\Config();
 
 $pivotalTracker =  new \PRI\PivotalClient($config);
-$pivotal_stories = $pivotalTracker->api('story')->listing(array( 'filter' => "-state:accepted",'limit' => 200, 'offset' => 0));
+$pivotal_stories = $pivotalTracker->api('story')->listing(array( 'filter' => "-state:accepted",'limit' => 300, 'offset' => 0));
 
 
 $collab_client = new Redmine\Client($config->redmine_url, $config->redmine_api);
